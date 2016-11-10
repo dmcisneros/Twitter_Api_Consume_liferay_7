@@ -6,7 +6,7 @@ Puedes encontrar la ponencia en la carpeta raíz del proyecto con el nombre "Pon
 
 
 
-La funcionalidad del portlet será una consulta sobre la API de Twitter para obtener los twits que tengan un hashtag determinadao, es necesario añadir los siguientes properties al fichero portal-ext.properties:
+La funcionalidad del portlet será una consulta sobre la API de Twitter para obtener los twits que tengan un hashtag determinado, es necesario añadir los siguientes properties al fichero portal-ext.properties:
 
 OAuthConsumerKey=${yourOAuthConsumerKey}
 OAuthConsumerSecret=${yourOAuthConsumerSecret}
