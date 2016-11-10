@@ -8,6 +8,7 @@ public class Constants {
 	public static String OAUTH_ACCESS_TOKEN= "OAuthAccessToken";
 	public static String TWITTER_HASHTAG = "hashtag";
 	public static String RESULTS = "resultados";
+	public static String TWEETS_RESULTS = "tweetsResultados";
 	public static String ERROR_MESSAGE = "An error has occurred during search";
 
 }

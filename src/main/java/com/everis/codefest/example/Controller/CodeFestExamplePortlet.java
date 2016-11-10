@@ -1,19 +1,26 @@
 package com.everis.codefest.example.Controller;
 
 import com.everis.codefest.example.Constants.Constants;
+import com.everis.codefest.example.Utils.Utils;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -24,7 +31,7 @@ import twitter4j.conf.ConfigurationBuilder;
 	property = {
 		"com.liferay.portlet.display-category=category.sample",
 		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=Twitter hashtag results set",
+		"javax.portlet.display-name=#Codefest_2016",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
@@ -81,6 +88,24 @@ public class CodeFestExamplePortlet extends MVCPortlet {
 		super.doView(renderRequest, renderResponse);
 	}
 	
+	@Override
+	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws IOException, PortletException {
+		
+		List<Long> oldTweets = new ArrayList<Long>();
+		List<Status> newTweets = new ArrayList<Status>();	
+		
+		results = Utils.getOldTwitts(results, oldTweets);
+				
+		// Realizamos la búsqueda del hashtag configurado
+		getTwitterHashtag();
+		
+		newTweets = Utils.getNewTwitts(results, oldTweets, newTweets);
+		
+		resourceRequest.setAttribute(Constants.TWEETS_RESULTS, newTweets);
+		include("/tweet.jsp", resourceRequest, resourceResponse);
+	}
+		
 	private void getTwitterHashtag() {
 		
 		ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -89,16 +114,11 @@ public class CodeFestExamplePortlet extends MVCPortlet {
 		cb.setOAuthConsumerSecret(OAuthConsumerSecret);
 		cb.setOAuthAccessTokenSecret(OAuthAccessTokenSecret);
 		cb.setOAuthAccessToken(OAuthAccessToken);
-		
-		
-		
+				
 		//PROXY CONFIGURATION
- 		//-----------------------
-		cb.setHttpProxyHost("10.125.8.100");
-		cb.setHttpProxyPort(8080);
-		 
-		 
-	
+ 		//cb.setHttpProxyHost("10.125.8.100");
+		//cb.setHttpProxyPort(8080);
+			
 		try {
 			
 			TwitterFactory tf = new TwitterFactory(cb.build());
@@ -112,6 +132,4 @@ public class CodeFestExamplePortlet extends MVCPortlet {
 		}
 	
 	}
-
-
 }
