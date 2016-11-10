@@ -114,10 +114,7 @@ public class CodeFestExamplePortlet extends MVCPortlet {
 		cb.setOAuthConsumerSecret(OAuthConsumerSecret);
 		cb.setOAuthAccessTokenSecret(OAuthAccessTokenSecret);
 		cb.setOAuthAccessToken(OAuthAccessToken);
-				
-		//PROXY CONFIGURATION
- 		//cb.setHttpProxyHost("10.125.8.100");
-		//cb.setHttpProxyPort(8080);
+			
 			
 		try {
 			
